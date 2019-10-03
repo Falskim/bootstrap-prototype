@@ -1,65 +1,65 @@
 .image-container {
-  position: relative;
-  width: 100%;
+    position: relative;
+    width: 100%;
 }
 
 .overlay-fade,
-.overlay-zoom,
-.overlay-slide {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  width: 100%;
-  transition: .5s ease;
-  background-color: rgba(0, 0, 0, 0.8);
+.overlay-slide,
+.overlay-zoom {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    transition: 0.5s ease;
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 .overlay-fade {
-  opacity: 0;
+    opacity: 0;
 }
 
 .overlay-zoom {
-  transform: scale(0);
+    transform: scale(0);
 }
 
 .overlay-slide {
-  background-color: rgba(2, 44, 58, 0.555);
-  overflow: hidden;
-  width: 0;
+    background-color: rgba(2, 44, 58, 0.555);
+    overflow: hidden;
+    width: 0;
 }
 
 .image-container:hover .overlay-slide {
-  width: 100%;
+    width: 100%;
 }
 
 .image-container:hover .overlay-fade {
-  opacity: 1;
+    opacity: 1;
 }
 
 .image-container:hover .overlay-zoom {
-  transform: scale(1);
+    transform: scale(1);
 }
 
 .overlay-text,
 .overlay-text-small {
-  color: white;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  text-align: center;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
 }
 
 .overlay-text {
-  font-size: 30px;
+    font-size: 30px;
 }
 .overlay-text-small {
-  font-size: 15px;
+    font-size: 15px;
 }
 
 @font-face {
@@ -69,4 +69,38 @@
 
 .font-predator {
     font-family: predator;
+}
+
+.parallax {
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.9;
+}
+
+.parallax-normal {
+    min-height: 400px;
+}
+
+.parallax-small {
+    min-height: 200px;
+}
+
+.bg-img-dark {
+    background-image: url("../img/background.jpg");
+}
+
+.bg-img-tech {
+    /* The image used */
+    background-image: url("../img/tech.jpeg");
+}
+
+.bg-img-edu {
+    background-image: url("../img/edu.jpeg");
+}
+
+.bg-img-world {
+    background-image: url("../img/world.jpeg");
 }
