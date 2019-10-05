@@ -23,11 +23,11 @@
     </head>
     <body>
 
-        <div class="jumbotron text-center bg-dark m-0">
+        <div class="jumbotron text-center bg-img-darkblue m-0">
             <h1 class="text-white font-predator">Welcome to My Site</h1>
         </div>
 
-        <nav class="navbar navbar-expand-sm bg-primary navbar-dark sticky-top">
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
             <button
                 class="navbar-toggler"
                 type="button"
@@ -52,31 +52,47 @@
 
         <div class="parallax parallax-small bg-img-world"></div>
 
-
         <!-- CROSSWORD GAME SECTION START -->
-        <section class="bg-dark">
-            <div id="board" class="container-fluid text-center"></div>
-            <div class="row bg-secondary text-white">
+
+        <div class="container-fluid bg-img-tech">
+            <br>
+        </div>
+        <section class="bg-img-dark text-center">
+            <div class="container-fluid pt-3">
+                <h2 class="text-white font-predator">CROSSWORD GAME</h2>
+            </div>
+            <div class="container-fluid p-5">
+                <div id="board" class="container-fluid text-center"></div>
+            </div>
+            <div class="row bg-dark opacity-75 text-white p-5">
                 <div class="col-7">
-                    <div id="question" class="container-fluid text-left">
-                        <p>Hello World</p>
-                        <p>Yay Lmao</p>
-                    </div>
+                    <h3 class="text-white font-predator pb-3">QUESTION</h3>
+                    <div id="question" class="container-fluid text-left"></div>
                 </div>
-                <div class="col-5">
-                    <div id="answer" class="container-fluid text-right">
-                        <input type="text" value="Mickey" maxlength="3" onkeypress="hello()"><br>
-                        <input type="text" value="Mouse" onmousedown=""><br>
-                    </div>
+                <div class="col-5 text-center">
+                    <h3 class="text-white font-predator pb-3">ANSWER</h3>
+                    <div id="answer" class="container-fluid"></div>
                 </div>
             </div>
+            <div class="container-fluid text-center p-4">
+                <button id="check" onmouseup="checkAnswer()" class="btn btn-info">
+                    <h3>Check Answer</h3>
+                </button>
+            </div>
         </section>
+        <div class="container-fluid bg-img-tech">
+            <br>
+        </div>
         <!-- CROSSWORD GAME SECTION END -->
 
 
         <div class="parallax parallax-small bg-img-world"></div>
 
-        <div class="jumbotron text-center bg-dark m-0 py-4">
+        <!-- FOOTER -->
+        <div class="container-fluid bg-dark">
+            <br>
+        </div>
+        <div class="jumbotron text-center bg-img-darkblue m-0 py-4">
             <h4 class="text-white mb-3 font-predator">Contact</h4>
             <a href="https://steamcommunity.com/id/falskim"><img
                 class="img-fluid b-logo rounded mx-auto px-3"

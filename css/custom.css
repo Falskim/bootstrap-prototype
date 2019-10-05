@@ -104,3 +104,23 @@
 .bg-img-world {
     background-image: url("../img/world.jpeg");
 }
+
+.bg-img-darkblue {
+    background-image: url("../img/darkblue.jpeg");
+}
+
+.bg-img-darkcamo {
+    background-image: url("../img/darkcamo.jpeg");
+}
+
+.opacity-50 {
+    opacity: 0.5;
+}
+
+.opacity-75 {
+    opacity: 0.75;
+}
+
+.font-monospace {
+    font-family: 'Courier New', Courier, monospace;
+}

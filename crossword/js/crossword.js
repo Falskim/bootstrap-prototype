@@ -10,6 +10,10 @@ class Tile {
         else 
             this.buttonClass = 'btn-outline-primary';
         }
+
+    isCorrect() {
+        return this.currentLetter == this.correctLetter || this.isEmpty;
+    }
 }
 
 class QuestionAnswer {
@@ -91,12 +95,24 @@ function createBoardGrid() {
     BOARD_NODE.innerHTML = boardHTMLCode;
 }
 
+function clearGridContent() {
+    for (var i = 0; i < Object.keys(grid).length; i++) {
+        changeTileValue(Object.keys(grid)[i], ' ');
+    }
+}
+
+function changeTileValue(tileID, value) {
+    document.getElementById(tileID).textContent = value;
+    grid[tileID].currentLetter = value;
+}
+
+
 function createQuestion() {
     var totalQuestion = Object.keys(QUESTION_DICTIONARY).length
     var questionHTMLCode = '';
     for (var i = 1; i <= totalQuestion ; i++){
         questionHTMLCode += (
-            "<p>" + QUESTION_DICTIONARY[i].question + "</p>"
+            '<p class="font-monospace">' + i + ". " + QUESTION_DICTIONARY[i].question + '</p>'
         );
     }
     QUESTION_NODE.innerHTML = questionHTMLCode;
@@ -107,10 +123,12 @@ function createAnswerInput() {
     var answerHTMLCode = '';
     for (var i = 1; i <= totalQuestion; i++) {
         answerHTMLCode += (
-            '<input type="text" id="' + i + '"'
+            i + ' : <input type="text" id="' + i + '"'
             + ' value="Answer" maxlength="' 
-            + QUESTION_DICTIONARY[i].answer.length
-            + '" onkeyup="updateInput(this)"> <br>'
+            + QUESTION_DICTIONARY[i].answer.length + '"'
+            + ' class="text-center"'
+            + ' onkeyup="updateInput(this)"'
+            + ' onfocus="clearForm(this)"><br>'
         );
     }
     ANSWER_NODE.innerHTML = answerHTMLCode;
@@ -127,20 +145,38 @@ function updateInput(node) {
     console.log("String : " + inputString + " char[0] " + inputString[0]);
     for (var i = 0 ; i < inputString.length ; i++){
         var buttonID = convertRowIntegerToChar(row) + col;
-        document.getElementById(buttonID).textContent = inputString[i];
-        grid[buttonID].currentLetter = inputString[i];
+        changeTileValue(buttonID, inputString[i])
         console.log(buttonID);
-        if (isHorizontal)
-            col += 1
-        else
-            row += 1
+        // if (isHorizontal)
+        //     col += 1
+        // else
+        //     row += 1
+        isHorizontal ? col += 1 : row += 1;
     }
+}
+
+function checkAnswer(){
+    var allAnswered = true;
+    for (var i = 0; i < Object.keys(grid).length ; i++){
+        var currentCheckedGrid = grid[Object.keys(grid)[i]]
+        if (!currentCheckedGrid.isCorrect()){
+            console.log("Grid array-" + i + " incorrect")
+            console.log("Required : '" + currentCheckedGrid.correctLetter 
+                        +"', current answer : '" + currentCheckedGrid.currentLetter +"'")
+            allAnswered = false;
+        }
+    }
+    alert(allAnswered ? "You're Correct !" : "Still Wrong, Try Again");
+}
+
+function clearForm(node){
+    node.value = '';
 }
 
 console.log("Total column : " + COLUMN);
 console.log("Total row : " + ROW);
-console.log(QUESTION_DICTIONARY[1]);
 convertLayoutToGrid();
 createBoardGrid();
+clearGridContent();
 createQuestion();
 createAnswerInput();
