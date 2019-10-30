@@ -2,3 +2,8 @@
     width: 3em;
     height: 3em;
 }
+
+.question:hover {
+    color: yellow;
+    font-size: 110%;
+}

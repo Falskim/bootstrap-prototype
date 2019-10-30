@@ -35,6 +35,7 @@ const BUTTON_STYLE_TEST = 'btn tile button btn-warning'
 const BOARD_NODE = document.getElementById("board");
 const QUESTION_NODE = document.getElementById("question");
 const ANSWER_NODE = document.getElementById("answer");
+const CLUE_NODE = document.getElementById("clue");
 
 // CROSSWORD GLOBAL VARIABLE
 const LAYOUT = [
@@ -99,6 +100,8 @@ var grid = {};
 var currentActiveLine = [];
 var score = 0;
 
+var currentSelectedQuestionId = 1;
+
 function convertRowIntegerToChar(row) {
     return String.fromCharCode(65 + row);
 }
@@ -149,36 +152,49 @@ function createQuestion() {
     var totalQuestion = Object.keys(QUESTION_DICTIONARY).length
     var questionHTMLCode = '';
     for (var i = 1; i <= totalQuestion; i++) {
+        var x = "lmao";
         questionHTMLCode += (
-            '<p class="font-monospace">' + i + ". " + QUESTION_DICTIONARY[i].question + '</p>'
+            '<p class="font-monospace question"'
+            + 'id="'+ i + '"'
+            + 'onclick="changeSelectedQuestion(this)">' 
+            + i + ". " + QUESTION_DICTIONARY[i].question + '</p>'
         );
     }
     QUESTION_NODE.innerHTML = questionHTMLCode;
 }
 
 function createAnswerInput() {
-    var totalQuestion = Object.keys(QUESTION_DICTIONARY).length
-    var answerHTMLCode = '';
-    for (var i = 1; i <= totalQuestion; i++) {
-        answerHTMLCode += (
-            i + ' : <input type="text" id="' + i + '"'
-            + ' value="Answer" maxlength="'
-            + QUESTION_DICTIONARY[i].answer.length + '"'
+    var answerLength = 5;
+    var answerHTMLCode = (
+            '<input type="text"' 
+            + ' id="answerForm"'
+            + ' value="Answer"' 
             + ' class="text-center"'
             + ' onkeyup="updateInput(this)"'
             + ' onfocus="clearForm(this)"><br>'
-        );
-    }
+    );
     ANSWER_NODE.innerHTML = answerHTMLCode;
 }
 
+function changeSelectedQuestion(elem) {
+    currentSelectedQuestionId = elem.id;
+    var answerForm = document.getElementById("answerForm");
+    answerForm.focus();
+    var wordLength = QUESTION_DICTIONARY[currentSelectedQuestionId].answer.length;
+    answerForm.maxlength = wordLength;
+    var clueHTMLCode = wordLength + '  Letters';
+    CLUE_NODE.innerHTML = clueHTMLCode;
+    
+}
+
 function updateInput(node) {
+    var answerForm = document.getElementById("answerForm");
     var inputString = node.value.toUpperCase();
-    var formID = node.id;
+    if (inputString.length > answerForm.maxlength) return;
+    var formID = currentSelectedQuestionId;
     var row = QUESTION_DICTIONARY[formID].row;
     var col = QUESTION_DICTIONARY[formID].col;
     var isHorizontal = QUESTION_DICTIONARY[formID].isHorizontal;
-    var wordLength = QUESTION_DICTIONARY[formID].answer.length;
     // console.log("Anwer : " + QUESTION_DICTIONARY[formID] + " , length : " + QUESTION_DICTIONARY[formID].answer.length);
     console.log("Row : " + row + " col " + col)
     console.log("Input form ID : " + formID);
@@ -194,7 +210,7 @@ function updateInput(node) {
 // R.I.P CODE
 function highlightGrid(node) {
     disableHightlight();
-    var formID = node.id;
+    var formID = currentSelectedQuestionId;
     var row = QUESTION_DICTIONARY[formID].row;
     var col = QUESTION_DICTIONARY[formID].col;
     var wordLength = QUESTION_DICTIONARY[formID].answer.length;
@@ -229,6 +245,7 @@ var changedTile = [];
 var revertedGrid
 
 function checkAnswer() {
+    disableHightlight();
     var allAnswered = true;
     score = 0;
     for (var i = 0; i < Object.keys(grid).length; i++) {
