@@ -28,6 +28,8 @@ class QuestionAnswer {
 const BUTTON_STYLE_ACTIVE = 'btn tile button btn-primary';
 const BUTTON_STYLE_INACTIVE = 'btn tile button btn-outline-primary';
 const BUTTON_STYLE_DISABLED = 'btn tile button btn-success disabled';
+const BUTTON_STYLE_WRONG = 'btn tile button btn-danger';
+const BUTTON_STYLE_TEST = 'btn tile button btn-warning'
 
 // index.html RELATED VARIABLE
 const BOARD_NODE = document.getElementById("board");
@@ -95,6 +97,7 @@ const COLUMN = LAYOUT[0].length;
 
 var grid = {};
 var currentActiveLine = [];
+var score = 0;
 
 function convertRowIntegerToChar(row) {
     return String.fromCharCode(65 + row);
@@ -222,19 +225,58 @@ function clearForm(node) {
     highlightGrid(node);
 }
 
+var changedTile = [];
+var revertedGrid
+
 function checkAnswer() {
     var allAnswered = true;
+    score = 0;
     for (var i = 0; i < Object.keys(grid).length; i++) {
-        var currentCheckedGrid = grid[Object.keys(grid)[i]]
+        var currentCheckedGrid = grid[Object.keys(grid)[i]];
+        if (currentCheckedGrid.isEmpty) continue;
         if (!currentCheckedGrid.isCorrect()) {
+            allAnswered = false;
             console.log("Grid array-" + i + " incorrect")
             console.log("Required : '" + currentCheckedGrid.correctLetter
                 + "', current answer : '" + currentCheckedGrid.currentLetter + "'")
-            allAnswered = false;
+            document.getElementById(Object.keys(grid)[i]).className = BUTTON_STYLE_WRONG;
+            changedTile.push(Object.keys(grid)[i]);
+        } else {
+            score += 100;
         }
     }
-    alert(allAnswered ? "You're Correct !" : "Still Wrong, Try Again");
+    allAnswered ? alertCorrect() : alertWrong();
+    revertedGrid = setTimeout(revertClassStyle, 2000);
 }
+
+
+function revertClassStyle(){
+    var tiles = changedTile;
+    for (var i = 0; i < tiles.length; i++){
+        document.getElementById(tiles[i]).className = BUTTON_STYLE_INACTIVE;
+    }
+}
+
+// Sweet Alert
+function alertCorrect() {
+    Swal.fire({
+        type: 'success',
+        title: 'Congratulation',
+        text: 'All Question Has Been Answered',
+        footer: 'Score : ' + score
+    })
+}
+
+function alertWrong() {
+    Swal.fire({
+        type: 'error',
+        title: 'Try Again',
+        text: 'There Are Still Some Mistakes',
+        footer: 'Score : ' + score
+    })
+}
+// End Sweet Alert
+
 
 console.log("Total column : " + COLUMN);
 console.log("Total row : " + ROW);
